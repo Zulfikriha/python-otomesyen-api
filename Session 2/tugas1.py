@@ -1,13 +1,14 @@
 import requests
 from datetime import datetime, time, timedelta
 
-url = 'https://api-partner.krl.co.id/krlweb/v1/schedule' #endpoint target
+def apiKRL(stasiun,berangkat,tiba):
+    url = f'https://api-partner.krl.co.id/krlweb/v1/schedule?stationid={stasiun}&timefrom={berangkat}&timeto={tiba}'
+    response = requests.get(url)
+    data1 = response.json()['data']
+    return data1
 
-query= {"stationid":'KPB',"timefrom":"17:00","timeto":"22:00"}
-
-response = requests.get(url,query)
-
-data = response.json()['data']
+##call function
+getkrl = apiKRL('KPB','17:00','23:00')
 
 ## get current date
 now = datetime.now()
@@ -22,7 +23,7 @@ print ("Daftar Keberangkatan dari Stasiun KAMPUNG-BANDAN tujuan BEKASI Pada Jam 
 print ("")
 print ("==============================================================================")
 print ("")
-for i in data:
+for i in getkrl:
     if i['dest'] == 'BEKASI':
         print( str(nomor) + ". " + "Route Kereta " + i['route_name'])
         print ("Perkiraan Berangkat" + " " + i['time_est'] + ", " "Perkiraan Sampai" + " " + i['dest_time'])
