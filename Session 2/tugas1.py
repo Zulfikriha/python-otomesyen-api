@@ -19,18 +19,21 @@ current_time2 = datetime.strptime(current_time, '%H:%M:%S')
 nomor = 1
 print ("==============================================================================")
 print ("")
-print ("Daftar Keberangkatan dari Stasiun KAMPUNG-BANDAN tujuan BEKASI Pada Jam 17.00 - 22.00")
+print ("Daftar Keberangkatan dari Stasiun KAMPUNG-BANDAN Tujuan BEKASI Pada Jam 17.00 - 23.00")
 print ("")
 print ("==============================================================================")
 print ("")
 for i in getkrl:
     if i['dest'] == 'BEKASI':
-        print( str(nomor) + ". " + "Route Kereta " + i['route_name'])
-        print ("Perkiraan Berangkat" + " " + i['time_est'] + ", " "Perkiraan Sampai" + " " + i['dest_time'])
+        print( str(nomor) + ". " + "ID Kereta " + i['train_id'])
         tiba = datetime.strptime(i['time_est'], '%H:%M:%S')
         delta = tiba - current_time2
         sec = delta.total_seconds()
         min = int(sec / 60)
-        print('Akan Berangkat dalam : ' + str(min) + " menit lagi")
+        if min <= -1:
+            print("Maaf Keretanya Sudah Lewat")
+        else:
+            print ("Perkiraan Berangkat" + " " + i['time_est'] + ", " "Perkiraan Sampai" + " " + i['dest_time'])
+            print('Akan Berangkat dalam : ' + str(min) + " menit lagi")
         print("")
         nomor += 1
